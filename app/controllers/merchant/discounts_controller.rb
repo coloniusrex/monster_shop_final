@@ -4,7 +4,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def new
-    @merchant = current_user.merchant
+    @discount = Discount.new
   end
 
   def create
@@ -14,8 +14,30 @@ class Merchant::DiscountsController < Merchant::BaseController
       redirect_to merchant_discounts_path
     else
       flash[:error] = 'Incomplete Form, Try Again.'
-      render :new
+      redirect_to '/merchant/discounts/new'
     end
+  end
+
+  def edit
+    @discount = current_user.merchant.discounts.find_by(id:params[:id])
+  end
+
+  def update
+    @discount = current_user.merchant.discounts.find_by(id:params[:id])
+    @discount.update(discount_params)
+    if @discount.save
+      flash[:notice] = 'Succesfully Updated Bulk Discount'
+      redirect_to merchant_discounts_path
+    else
+      flash[:error] = 'Incomplete Form, Try Again.'
+      redirect_to edit_merchant_discount_path
+    end
+  end
+
+  def destroy
+    discount = current_user.merchant.discounts.find_by(id:params[:id])
+    flash[:notice] = 'Succesfully Removed Discount'
+    redirect_to merchant_discounts_path
   end
 
   private
