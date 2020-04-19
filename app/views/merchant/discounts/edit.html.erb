@@ -1,0 +1,8 @@
+<h1>Edit <%= @discount.nickname %></h1>
+
+<section id='edit-discount-form'>
+  <%= render partial: 'form', locals: { path: "/merchant/discounts/#{@discount.id}",
+                                      method: :patch,
+                                 button_name: 'Submit',
+                                    discount: @discount } %>
+</section>
