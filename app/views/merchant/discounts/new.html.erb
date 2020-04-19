@@ -1,0 +1,8 @@
+<h1>New Bulk Discount</h1>
+
+<section id='new-discount-form'>
+  <%= render partial: 'form', locals: { path: merchant_discounts_path,
+                                      method: :post,
+                                 button_name: 'Submit',
+                                    discount: Discount.new() } %>
+</section>

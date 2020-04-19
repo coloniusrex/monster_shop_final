@@ -20,18 +20,39 @@ RSpec.describe 'Merchant Bulk Discounts Page' do
   end
 
   describe 'As an employee of a merchant' do
-    it "I can see a list of current and discontinued discounts" do
+    it "I can see a list of current discounts" do
       visit '/merchant'
 
       click_link 'Manage Bulk Discounts'
       expect(current_path).to eql("/merchant/discounts")
 
       within "#discounts" do
-        expect(page).to have_content(@discount_1.nickname)
-        expect(page).to have_content(@discount_1.price)
-        expect(page).to have_content(@discount_1.quantity)
+        within "#discount-#{@discount_1.id}" do
+          expect(page).to have_content(@discount_1.nickname)
+          expect(page).to have_content("#{@discount_1.price}% off for #{@discount_1.quantity} or more items")
+        end
+      end
+    end
+
+    it "I can click a link to create a new discount" do
+      visit '/merchant/discounts'
+      click_link 'Create New Bulk Discount'
+      expect(current_path).to eql('/merchant/discounts/new')
+
+      within '#new-discount-form' do
+        fill_in "Nickname", with: 'New Discount'
+        fill_in "Price", with: 15
+        fill_in "Quantity", with: 5
+        click_on 'Submit'
       end
 
+      expect(current_path).to eql('/merchant/discounts')
+      within '#discounts' do
+        expect(page).to have_content('New Discount')
+        expect(page).to have_content('15% off for 5 or more items.')
+      end
     end
   end
+
+
 end
