@@ -4,5 +4,5 @@
   <%= render partial: 'form', locals: { path: merchant_discounts_path,
                                       method: :post,
                                  button_name: 'Submit',
-                                    discount: Discount.new() } %>
+                                    discount: @discount ||= Discount.new } %>
 </section>
