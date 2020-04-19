@@ -1,0 +1,9 @@
+<h1>Merchant Bulk Discounts</h1>
+
+<section id='discounts'>
+  <% @discounts.each do |discount| %>
+    <p><%= discount.nickname %></p>
+    <p><%= discount.price %></p>
+    <p><%= discount.quantity %></p>
+  <% end %>
+</section>
