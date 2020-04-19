@@ -37,8 +37,26 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    @contents[item_id.to_s] * Item.find(item_id).price
+    if bulk_discount(item_id) != nil
+      percent = (100 - (bulk_discount(item_id)[:price]))/ 100.00
+      (@contents[item_id.to_s] * Item.find(item_id).price) * percent
+    else
+      @contents[item_id.to_s] * Item.find(item_id).price
+    end
   end
+
+  def bulk_discount(item_id)
+    item = Item.find(item_id)
+    merchant = Merchant.find(item.merchant_id)
+    merchant.discounts.where("quantity <= ?", count_of(item_id)).order(quantity: :desc).first
+  end
+
+  def bulk_savings(item_id)
+    full_price = @contents[item_id.to_s] * Item.find(item_id).price
+    percent = (100 - (bulk_discount(item_id)[:price]))/ 100.00
+    full_price - (full_price * percent)
+  end
+
 
   def limit_reached?(item_id)
     count_of(item_id) == Item.find(item_id).inventory

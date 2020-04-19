@@ -8,6 +8,7 @@ RSpec.describe Cart do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 2 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @tiger = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @giant.id.to_s => 2
@@ -62,6 +63,24 @@ RSpec.describe Cart do
       @cart.less_item(@giant.id.to_s)
 
       expect(@cart.count_of(@giant.id)).to eq(1)
+    end
+
+    it '.bulk_discount()' do
+      expect(@cart.subtotal_of(@ogre.id)).to eq(20)
+      expect(@cart.subtotal_of(@giant.id)).to eq(100)
+
+      @megan.discounts.create(nickname: 'SummerSale', price: 20, quantity: 1)
+      @megan.discounts.create(nickname: 'SummerSale', price: 30, quantity: 2)
+
+      expect(@cart.subtotal_of(@ogre.id)).to eq(16)
+      expect(@cart.subtotal_of(@giant.id)).to eq(70)
+    end
+
+    it ".bulk_savings()" do
+      @megan.discounts.create(nickname: 'SummerSale', price: 20, quantity: 1)
+      @megan.discounts.create(nickname: 'SummerSale', price: 30, quantity: 2)
+      expect(@cart.bulk_savings(@ogre.id)).to eql(4.0)
+      expect(@cart.bulk_savings(@giant.id)).to eql(30.0)
     end
   end
 end

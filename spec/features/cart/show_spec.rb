@@ -8,7 +8,7 @@ RSpec.describe 'Cart Show Page' do
       @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
-      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
+      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @discount_1 = @megan.discounts.create(nickname: 'First Discount', price: 15, quantity: 2)
       @discount_2 = @megan.discounts.create(nickname: 'Second Discount', price: 40, quantity: 4)
       @discount_3 = @brian.discounts.create(nickname: 'Third Discount', price: 40, quantity: 3)
@@ -123,6 +123,10 @@ RSpec.describe 'Cart Show Page' do
         click_button 'Add to Cart'
         visit item_path(@hippo)
         click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
 
         visit '/cart'
 
@@ -144,6 +148,10 @@ RSpec.describe 'Cart Show Page' do
         click_button 'Add to Cart'
         visit item_path(@hippo)
         click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
 
         visit '/cart'
 
@@ -153,7 +161,7 @@ RSpec.describe 'Cart Show Page' do
 
         expect(current_path).to eq('/cart')
         within "#item-#{@hippo.id}" do
-          expect(page).to have_content('Quantity: 2')
+          expect(page).to have_content('Quantity: 4')
         end
       end
 
@@ -194,7 +202,7 @@ RSpec.describe 'Cart Show Page' do
           click_button('Less of This!')
           expect(page).to have_content('Quantity: 3')
           expect(page).to have_content("Subtotal: $90.00")
-          
+
           click_button('Less of This!')
           expect(page).to have_content('Quantity: 2')
           expect(page).to have_content("Subtotal: $100.00")
