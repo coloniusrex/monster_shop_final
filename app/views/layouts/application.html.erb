@@ -7,7 +7,11 @@
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
-
+  <% flash.each do  |name, msg| %>
+    <div class="<%=name%>-flash">
+      <p><%= msg %></p>
+    </div>
+  <% end %>
   <body>
     <nav>
       <%= link_to 'Home', root_path %>
