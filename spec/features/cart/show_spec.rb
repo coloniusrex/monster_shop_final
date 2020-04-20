@@ -179,7 +179,9 @@ RSpec.describe 'Cart Show Page' do
         expect(page).to_not have_content("#{@hippo.name}")
         expect(page).to have_content("Cart: 0")
       end
+    end
 
+    describe 'Bulk Discounts' do
       it "Bulk discounts are applied for each of my items when their individual cart quantity meets discount thresholds" do
         visit item_path(@hippo)
         click_button 'Add to Cart'
@@ -208,7 +210,6 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Subtotal: $100.00")
         end
       end
-
     end
   end
 end
