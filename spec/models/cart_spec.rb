@@ -65,22 +65,41 @@ RSpec.describe Cart do
       expect(@cart.count_of(@giant.id)).to eq(1)
     end
 
-    it '.bulk_discount()' do
+    it '.bulk_discount?()' do
+      expect(@cart.subtotal_of(@ogre.id)).to eq(20)
+      expect(@cart.subtotal_of(@giant.id)).to eq(100)
+
+      expect(@cart.bulk_discount?(@ogre)).to eq(false)
+      expect(@cart.bulk_discount?(@giant)).to eq(false)
+
+      @megan.discounts.create(nickname: 'SummerSale', percent: 20, quantity: 1)
+      @megan.discounts.create(nickname: 'SummerSale', percent: 30, quantity: 2)
+
+      expect(@cart.bulk_discount?(@ogre)).to eq(true)
+      expect(@cart.bulk_discount?(@giant)).to eq(true)
+    end
+
+    it "bulk_discount_multiplier()" do
       expect(@cart.subtotal_of(@ogre.id)).to eq(20)
       expect(@cart.subtotal_of(@giant.id)).to eq(100)
 
       @megan.discounts.create(nickname: 'SummerSale', percent: 20, quantity: 1)
       @megan.discounts.create(nickname: 'SummerSale', percent: 30, quantity: 2)
 
-      expect(@cart.subtotal_of(@ogre.id)).to eq(16)
+      expect(@cart.bulk_discount_multiplier(@ogre)).to eql(0.80)
+      expect(@cart.bulk_discount_multiplier(@giant)).to eql(0.70)
+
+      expect(@cart.subtotal_of(@ogre.id)).to eq(16.0)
       expect(@cart.subtotal_of(@giant.id)).to eq(70)
     end
 
     it ".bulk_savings()" do
       @megan.discounts.create(nickname: 'SummerSale', percent: 20, quantity: 1)
       @megan.discounts.create(nickname: 'SummerSale', percent: 30, quantity: 2)
-      expect(@cart.bulk_savings(@ogre.id)).to eql(4.0)
-      expect(@cart.bulk_savings(@giant.id)).to eql(30.0)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.bulk_savings(@ogre)).to eql(12.0)
+      expect(@cart.bulk_savings(@giant)).to eql(30.0)
     end
   end
 end

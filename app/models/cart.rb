@@ -37,24 +37,30 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    if bulk_discount(item_id) != nil
-      percent = (100 - (bulk_discount(item_id)[:percent]))/ 100.00
-      (@contents[item_id.to_s] * Item.find(item_id).price) * percent
+    item = Item.find(item_id)
+    if bulk_discount?(item)
+      (@contents[item_id.to_s] * item.price) * bulk_discount_multiplier(item)
     else
-      @contents[item_id.to_s] * Item.find(item_id).price
+      @contents[item_id.to_s] * item.price
     end
   end
 
-  def bulk_discount(item_id)
-    item = Item.find(item_id)
-    merchant = Merchant.find(item.merchant_id)
-    merchant.discounts.where("quantity <= ?", count_of(item_id)).order(quantity: :desc).first
+  def bulk_discount?(item)
+    item.merchant.discounts.where("quantity <= ?", count_of(item.id)).any?
   end
 
-  def bulk_savings(item_id)
-    full_price = @contents[item_id.to_s] * Item.find(item_id).price
-    percent = (100 - (bulk_discount(item_id)[:percent]))/ 100.00
-    full_price - (full_price * percent)
+  def bulk_discount(item)
+    item.merchant.discounts.where("quantity <= ?", count_of(item.id)).order(quantity: :desc).first
+
+  end
+
+  def bulk_discount_multiplier(item)
+    ( ( 100 - bulk_discount(item)[:percent] ) / 100.00 )
+  end
+
+  def bulk_savings(item)
+    full_price = @contents[item.id.to_s] * item.price
+    full_price - (full_price * bulk_discount_multiplier(item))
   end
 
 
