@@ -55,5 +55,27 @@ RSpec.describe 'New Merchant Item' do
       expect(page).to have_content("inventory: [\"can't be blank\"]")
       expect(page).to have_button('Create Item')
     end
+
+    it "I can create an item without an image and it will be assigned a default placeholder image" do
+      name = 'Ogre'
+      description = "I'm an Ogre!"
+      price = 20
+      image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw'
+      inventory = 5
+
+      visit "/merchant/items/new"
+
+      fill_in 'Name', with: name
+      fill_in 'Description', with: description
+      fill_in 'Price', with: price
+      fill_in 'Image', with: ''
+      fill_in 'Inventory', with: inventory
+      click_button 'Create Item'
+
+      expect(current_path).to eq("/merchant/items")
+      item = current_user.items.first
+      expect(item.image).to eql()
+
+    end
   end
 end
