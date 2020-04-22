@@ -18,5 +18,5 @@ megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image:
 megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
 brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
 
-brian.discounts.create(nickname: 'SummerSale', price: 20, quantity: 3)
-brian.discounts.create(nickname: 'SummerSale', price: 30, quantity: 5)
+brian.discounts.create(nickname: 'SummerSale', percent: 20, quantity: 3)
+brian.discounts.create(nickname: 'SummerSale', percent: 30, quantity: 5)
