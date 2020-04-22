@@ -13,7 +13,7 @@ class Merchant::DiscountsController < Merchant::BaseController
       flash[:notice] = 'Succesfully Created Bulk Discount'
       redirect_to merchant_discounts_path
     else
-      flash[:error] = 'Incomplete Form, Try Again.'
+      flash[:error] = "#{discount.errors.full_messages.to_sentence}, Try Again."
       redirect_to '/merchant/discounts/new'
     end
   end
@@ -28,7 +28,7 @@ class Merchant::DiscountsController < Merchant::BaseController
       flash[:notice] = 'Succesfully Updated Bulk Discount'
       redirect_to merchant_discounts_path
     else
-      flash[:error] = 'Incomplete Form, Try Again.'
+      flash[:error] = "#{@discount.errors.full_messages.to_sentence}, Try Again."
       redirect_to edit_merchant_discount_path
     end
   end

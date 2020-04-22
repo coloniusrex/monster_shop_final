@@ -49,7 +49,7 @@ RSpec.describe 'Merchant Bulk Discounts New Page' do
       end
 
       expect(current_path).to eql('/merchant/discounts/new')
-      expect(page).to have_content('Incomplete Form, Try Again.')
+      expect(page).to have_content("Quantity can't be blank and Quantity is not a number, Try Again.")
     end
   end
 end

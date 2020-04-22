@@ -59,7 +59,7 @@ RSpec.describe 'Merchant Bulk Discounts Update Page' do
         click_on 'Submit'
       end
 
-      expect(page).to have_content('Incomplete Form, Try Again.')
+      expect(page).to have_content("Percent can't be blank and Percent is not a number, Try Again.")
       expect(current_path).to eql("/merchant/discounts/#{@discount_1.id}/edit")
     end
   end
