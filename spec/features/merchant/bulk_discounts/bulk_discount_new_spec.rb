@@ -16,7 +16,7 @@ RSpec.describe 'Merchant Bulk Discounts New Page' do
       @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true)
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
       @order_item_4 = @order_3.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
-      @discount_1 = @merchant_1.discounts.create(nickname:'Spring Sale', price: 20, quantity: 5)
+      @discount_1 = @merchant_1.discounts.create(nickname:'Spring Sale', percent: 20, quantity: 5)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
     end
 
@@ -25,7 +25,7 @@ RSpec.describe 'Merchant Bulk Discounts New Page' do
 
       within '#new-discount-form' do
         fill_in "Nickname", with: 'New Discount'
-        fill_in "Price", with: 15
+        fill_in "Percent", with: 15
         fill_in "Quantity", with: 5
         click_on 'Submit'
       end
@@ -43,7 +43,7 @@ RSpec.describe 'Merchant Bulk Discounts New Page' do
 
       within '#new-discount-form' do
         fill_in "Nickname", with: 'New Discount'
-        fill_in "Price", with: 15
+        fill_in "Percent", with: 15
         fill_in "Quantity", with: ''
         click_on 'Submit'
       end

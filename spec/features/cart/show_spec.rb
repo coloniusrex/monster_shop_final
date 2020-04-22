@@ -9,10 +9,10 @@ RSpec.describe 'Cart Show Page' do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-      @discount_1 = @megan.discounts.create(nickname: 'First Discount', price: 15, quantity: 2)
-      @discount_2 = @megan.discounts.create(nickname: 'Second Discount', price: 40, quantity: 4)
-      @discount_3 = @brian.discounts.create(nickname: 'Third Discount', price: 40, quantity: 3)
-      @discount_4 = @brian.discounts.create(nickname: 'Fourth Discount', price: 10, quantity: 5)
+      @discount_1 = @megan.discounts.create(nickname: 'First Discount', percent: 15, quantity: 2)
+      @discount_2 = @megan.discounts.create(nickname: 'Second Discount', percent: 40, quantity: 4)
+      @discount_3 = @brian.discounts.create(nickname: 'Third Discount', percent: 40, quantity: 3)
+      @discount_4 = @brian.discounts.create(nickname: 'Fourth Discount', percent: 10, quantity: 5)
     end
 
     describe 'I can see my cart' do

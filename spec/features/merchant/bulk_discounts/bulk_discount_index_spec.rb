@@ -16,7 +16,7 @@ RSpec.describe 'Merchant Bulk Discounts Page' do
       @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true)
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
       @order_item_4 = @order_3.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
-      @discount_1 = @merchant_1.discounts.create(nickname:'Spring Sale', price: 20, quantity: 5)
+      @discount_1 = @merchant_1.discounts.create(nickname:'Spring Sale', percent: 20, quantity: 5)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
     end
 
@@ -29,7 +29,7 @@ RSpec.describe 'Merchant Bulk Discounts Page' do
       within "#discounts" do
         within "#discount-#{@discount_1.id}" do
           expect(page).to have_content(@discount_1.nickname)
-          expect(page).to have_content("#{@discount_1.price}% off for #{@discount_1.quantity} or more items")
+          expect(page).to have_content("#{@discount_1.percent}% off for #{@discount_1.quantity} or more items")
         end
       end
     end

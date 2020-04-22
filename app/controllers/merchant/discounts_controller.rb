@@ -4,12 +4,12 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def new
-    @discount = Discount.new
+    @discount = current_user.merchant.discounts.new
   end
 
   def create
-    discount = current_user.merchant.discounts.new(discount_params)
-    if discount.save
+    discount = current_user.merchant.discounts.last
+    if discount.update(discount_params)
       flash[:notice] = 'Succesfully Created Bulk Discount'
       redirect_to merchant_discounts_path
     else
@@ -41,6 +41,6 @@ class Merchant::DiscountsController < Merchant::BaseController
 
   private
   def discount_params
-    params.require(:discount).permit(:nickname, :price, :quantity)
+    params.require(:discount).permit(:nickname, :percent, :quantity)
   end
 end

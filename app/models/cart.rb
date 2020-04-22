@@ -38,7 +38,7 @@ class Cart
 
   def subtotal_of(item_id)
     if bulk_discount(item_id) != nil
-      percent = (100 - (bulk_discount(item_id)[:price]))/ 100.00
+      percent = (100 - (bulk_discount(item_id)[:percent]))/ 100.00
       (@contents[item_id.to_s] * Item.find(item_id).price) * percent
     else
       @contents[item_id.to_s] * Item.find(item_id).price
@@ -53,7 +53,7 @@ class Cart
 
   def bulk_savings(item_id)
     full_price = @contents[item_id.to_s] * Item.find(item_id).price
-    percent = (100 - (bulk_discount(item_id)[:price]))/ 100.00
+    percent = (100 - (bulk_discount(item_id)[:percent]))/ 100.00
     full_price - (full_price * percent)
   end
 
